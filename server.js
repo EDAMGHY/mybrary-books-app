@@ -22,6 +22,7 @@ app.use(express.static('public'));
 // routes
 app.use(require('./routes'));
 app.use('/authors', require('./routes/authors'));
+app.use('/books', require('./routes/books'));
 
 const PORT = 5000 || process.env.PORT;
 app.listen(PORT, () =>
