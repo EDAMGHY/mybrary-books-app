@@ -2,7 +2,10 @@ const express = require('express');
 const connectDB = require('./db');
 const expressLayouts = require('express-ejs-layouts');
 const app = express();
-require('dotenv').config();
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').parse();
+}
 
 connectDB();
 // template engine ejs config
