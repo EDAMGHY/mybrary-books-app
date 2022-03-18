@@ -4,7 +4,7 @@ const expressLayouts = require('express-ejs-layouts');
 const app = express();
 
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').parse();
+  require('dotenv').config();
 }
 
 connectDB();
