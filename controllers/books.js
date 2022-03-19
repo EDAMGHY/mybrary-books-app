@@ -1,8 +1,6 @@
 const Book = require('../models/Book');
 const Author = require('../models/Author');
-const fs = require('fs');
-const path = require('path');
-const uploadPath = path.join('public', Book.coverImageBasePath);
+const imageMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'images/gif'];
 
 // get all books view
 const allBooks = async (req, res) => {
@@ -33,29 +31,26 @@ const newBook = async (req, res) => {
 // create new book
 const createBook = async (req, res) => {
   const { title, author, description, publishDate, pageCount } = req.body;
-  const fileName = req.file != null ? req.file.filename : null;
   const book = new Book({
     title,
     description,
     author,
     pageCount,
-    coverImageName: fileName,
     publishDate: new Date(publishDate),
   });
+  saveCover(book, req.body.cover);
   try {
     const newBook = await book.save();
     // res.render(`books/${newBook.id}`, {});
     res.redirect(`/books`);
   } catch (err) {
-    if (book.coverImageName != null) {
-      removeBookCover(book.coverImageName);
-    }
     console.log(err.message);
 
     renderNewPage(res, new Book(), true);
   }
 };
 
+// utils
 const renderNewPage = async (res, book, hasError = false) => {
   try {
     const authors = await Author.find();
@@ -66,9 +61,13 @@ const renderNewPage = async (res, book, hasError = false) => {
     res.redirect('/books');
   }
 };
-const removeBookCover = (fileName) => {
-  fs.unlink(path.join(uploadPath, fileName), (err) => {
-    if (err) console.error(err);
-  });
+
+const saveCover = (book, coverEncoded) => {
+  if (coverEncoded == null) return;
+  const cover = JSON.parse(coverEncoded);
+  if (cover != null && imageMimeTypes.includes(cover.type)) {
+    book.coverImage = new Buffer.from(cover.data, 'base64');
+    book.coverImageType = cover.type;
+  }
 };
 module.exports = { allBooks, newBook, createBook };
