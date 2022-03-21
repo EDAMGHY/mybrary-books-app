@@ -1,39 +1,37 @@
-<h2>Search Books</h2>
+<h2 class="page-header">Search Books</h2>
 <form action="/books" method="GET">
-  <div>
-    <label>Title</label>
-    <input
-      type="text"
-      name="title"
-      value="<%= searchOptions.title %>"
-      placeholder="Search By Title..."
-    />
+  <div class="form-row">
+    <div class="form-item">
+      <label>Title</label>
+      <input
+        type="text"
+        name="title"
+        value="<%= searchOptions.title %>"
+        placeholder="Search By Title..."
+      />
+    </div>
   </div>
-  <div>
-    <label>Publish After</label>
-    <input
-      type="date"
-      name="publishedAfter"
-      value="<%= searchOptions.publishedAfter %>"
-    />
+  <div class="form-row">
+    <div class="form-item">
+      <label>Publish After</label>
+      <input
+        type="date"
+        name="publishedAfter"
+        value="<%= searchOptions.publishedAfter %>"
+      />
+    </div>
+    <div class="form-item">
+      <label>Publish Before</label>
+      <input
+        type="date"
+        name="publishedBefore"
+        value="<%= searchOptions.publishedBefore %>"
+      />
+    </div>
   </div>
-  <div>
-    <label>Publish Before</label>
-    <input
-      type="date"
-      name="publishedBefore"
-      value="<%= searchOptions.publishedBefore %>"
-    />
+  <div class="form-row form-row-end">
+    <button class="btn btn-primary" type="submit">Search</button>
   </div>
-  <button type="submit">Search</button>
 </form>
 <br />
-
-<% books.forEach(book => { %>
-<img
-  src="<%= book.coverImagePath %>"
-  height="150"
-  width="100"
-  alt="<%= book.title %>"
-/>
-<% }); %>
+<%- include('../partials/bookGrid.ejs',{ books ,large:true})%>

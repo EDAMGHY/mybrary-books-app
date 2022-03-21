@@ -1,21 +1,21 @@
 const express = require('express');
 
-const path = require('path');
-const Book = require('../models/Book');
-
-// const imageMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'images/gif'];
-// const upload = multer({
-//   dest: uploadPath,
-//   fileFilter: (req, file, callback) => {
-//     callback(null, imageMimeTypes.includes(file.mimetype));
-//   },
-// });
-
-const { allBooks, newBook, createBook } = require('../controllers/books');
+const {
+  allBooks,
+  newBook,
+  createBook,
+  getBook,
+  updateBook,
+  deleteBook,
+  editBook,
+} = require('../controllers/books');
 
 const router = express.Router();
 
 router.get('/', allBooks).post('/', createBook);
 router.get('/new', newBook);
+
+router.get('/:id', getBook).put('/:id', updateBook).delete('/:id', deleteBook);
+router.get('/:id/edit', editBook);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const express = require('express');
+const methodOverride = require('method-override');
 const connectDB = require('./db');
 const expressLayouts = require('express-ejs-layouts');
 const app = express();
@@ -8,11 +9,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 connectDB();
-// template engine ejs config
+// middleware, engine, json-parser
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.set('layout', 'layouts/layout');
 app.use(expressLayouts);
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ limit: '10mb', extended: false }));
 
