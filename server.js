@@ -26,7 +26,7 @@ app.use(require('./routes'));
 app.use('/authors', require('./routes/authors'));
 app.use('/books', require('./routes/books'));
 
-const PORT = 5000 || process.env.PORT;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`Server Listening on http://localhost:${PORT}...`)
 );
